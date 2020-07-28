@@ -1,3 +1,23 @@
 body {
-    font-size: 16px;
+    display:grid;
+    grid-template-areas:
+            'h'
+            'm'
+            'f'
+    ;
+    grid-template-rows: 100px auto 50px;
+    grid-gap: 1rem;
+}
+
+header {
+    grid-area: h;
+}
+footer {
+    grid-area: f;
+}
+main {
+    grid-area: m;
+}
+aside {
+    grid-area: a;
 }
