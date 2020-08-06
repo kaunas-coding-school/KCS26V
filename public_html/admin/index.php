@@ -5,6 +5,7 @@
 session_start();
 
 if (isset($_SESSION['ar_prisijunges']) && $_SESSION['ar_prisijunges'] === true) {
+    echo "<a href='/logout.php'>Logout</a> ";
     echo "Slapta INFO";
 } else {
     // Nukreipia lankytoją į prisijungimo skriptą

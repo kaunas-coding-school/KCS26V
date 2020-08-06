@@ -1,7 +1,12 @@
 <?php
+session_start();
+
+if (isset($_SESSION['ar_prisijunges']) && $_SESSION['ar_prisijunges'] === true) {
+    header("Location: /admin");
+}
+
 $cookieName = 'prisiminti_slaptazodi';
 $cookieUserName = 'userName';
-
 if (!isset($_COOKIE[$cookieName]) && isset($_POST['remember_pass'])) {
     setcookie($cookieName, $_POST['remember_pass'], time() + 86400 * 5, '/');
     setcookie($cookieUserName, $_POST['username'], time() + 86400 * 5, '/');
@@ -17,8 +22,8 @@ if (
     !empty($_POST)
     && isset($_POST['username'])
     && isset($_POST['password'])
-    && $_POST['username'] === 'Adminas'
-    && $_POST['password'] === 'Slaptazodis123'
+    && $_POST['username'] === 'a'
+    && $_POST['password'] === 'a'
 ) {
     $_SESSION['ar_prisijunges'] = true;
 
@@ -28,7 +33,6 @@ if (
     if (!empty($_POST)){
         echo "<div style='color: red'>Blogi prisijungimo duomenys</div><br>";
     }
-    $_SESSION['ar_prisijunges'] = false;
 }
 
 ?>
