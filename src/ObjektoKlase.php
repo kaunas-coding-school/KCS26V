@@ -4,8 +4,8 @@ namespace KCS;
 
 class ObjektoKlase
 {
-    public function __construct()
+    public function __construct($vardas)
     {
-        echo "Labas pasauli";
+        echo "Sveiki visi, aš esu " . $vardas;
     }
 }
