@@ -25,5 +25,19 @@ $log->pushHandler(new Monolog\Handler\StreamHandler('app.log', Monolog\Logger::D
 //}
 
 $obj = new \KCS\ObjektoKlase('Jonas');
+echo "<hr>";
+
+try {
+    $request = new \KCS\RequestHandler();
+    var_dump($request->gautiUzklausosDuoemnis());
+    var_dump($request->gautiUzklausosMetoda());
+} catch (\InvalidArgumentException $exception) {
+    $message = $exception->getMessage();
+    echo $message;
+    $log->error($message);
+} catch (\Throwable $exception) {
+    echo 'Kilo klaida arba truksta duomenų';
+    $log->error($exception->getMessage());
+}
 
 
