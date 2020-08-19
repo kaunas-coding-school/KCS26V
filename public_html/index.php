@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 $log = new Monolog\Logger('name');
 $log->pushHandler(new Monolog\Handler\StreamHandler('app.log', Monolog\Logger::DEBUG));
@@ -24,13 +24,27 @@ $log->pushHandler(new Monolog\Handler\StreamHandler('app.log', Monolog\Logger::D
 //    $log->error('Skaiciau tikrinimo klaida', ['message' => $exception->getMessage()]);
 //}
 
-$obj = new \KCS\ObjektoKlase('Jonas');
-echo "<hr>";
+//$obj = new \KCS\ObjektoKlase('Jonas');
+//echo "<hr>";
 
 try {
     $request = new \KCS\RequestHandler();
     var_dump($request->gautiUzklausosDuoemnis());
     var_dump($request->gautiUzklausosMetoda());
+
+    $servername = "db";
+    $username = "devuser";
+    $password = "devpass";
+
+    $conn = new PDO("mysql:host=$servername;dbname=kcs_db", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Connected successfully";
+
+} catch (PDOException $e) {
+    $message = $e->getMessage();
+    echo "Connection failed: ".$message;
+    $log->warning($message);
+    die();
 } catch (\InvalidArgumentException $exception) {
     $message = $exception->getMessage();
     echo $message;
