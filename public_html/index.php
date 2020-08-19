@@ -28,17 +28,24 @@ $log->pushHandler(new Monolog\Handler\StreamHandler('app.log', Monolog\Logger::D
 //echo "<hr>";
 
 try {
-    $request = new \KCS\RequestHandler();
-    var_dump($request->gautiUzklausosDuoemnis());
-    var_dump($request->gautiUzklausosMetoda());
+//    $request = new \KCS\RequestHandler();
+//    var_dump($request->gautiUzklausosDuoemnis());
+//    var_dump($request->gautiUzklausosMetoda());
 
-    $servername = "db";
-    $username = "devuser";
-    $password = "devpass";
+    $con = (new \KCS\DB())->getConnection();
 
-    $conn = new PDO("mysql:host=$servername;dbname=kcs_db", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connected successfully";
+    // sql to create table
+    $sql = "CREATE TABLE messages (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(30) NOT NULL,
+    email VARCHAR(50),
+    message VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )";
+
+    $con->exec($sql);
+
+    echo "Sukurem lentele";
 
 } catch (PDOException $e) {
     $message = $e->getMessage();
