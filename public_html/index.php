@@ -28,24 +28,15 @@ $log->pushHandler(new Monolog\Handler\StreamHandler('app.log', Monolog\Logger::D
 //echo "<hr>";
 
 try {
-//    $request = new \KCS\RequestHandler();
-//    var_dump($request->gautiUzklausosDuoemnis());
-//    var_dump($request->gautiUzklausosMetoda());
+    $request = new \KCS\RequestHandler();
 
-    $con = (new \KCS\DB())->getConnection();
+    $messagesRepo = new \KCS\MessagesRepo();
+    $uzklausa = $request->gautiUzklausosDuoemnis();
 
-    // sql to create table
-    $sql = "CREATE TABLE messages (
-    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(30) NOT NULL,
-    email VARCHAR(50),
-    message VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    )";
+    $messagesRepo->insert($uzklausa['vardas'], $uzklausa['elpastas'], $uzklausa['msg']);
+    $last_id = $messagesRepo->lastInsertId();
 
-    $con->exec($sql);
-
-    echo "Sukurem lentele";
+    echo "Iterpem duomenis. Iraso ID: $last_id";
 
 } catch (PDOException $e) {
     $message = $e->getMessage();

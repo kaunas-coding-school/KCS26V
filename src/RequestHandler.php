@@ -41,12 +41,16 @@ class RequestHandler
      */
     private function validuotiDuomenis(): void
     {
-//        if (!array_key_exists('amzius', $this->request)){
-//            throw new RuntimeException('Nenurodytas amžiaus kintamasis');
-//        }
-//
-//        if (!$this->request['amzius'] || (int) $this->request['amzius'] < self::AMZIAUS_LIMITAS){
-//            throw new InvalidArgumentException('Esate per jaunas');
-//        }
+        if (!array_key_exists('vardas', $this->request) || empty($this->request['vardas'])){
+            throw new InvalidArgumentException('Nenurodytas Vardas');
+        }
+
+        if (!array_key_exists('elpastas', $this->request) || empty($this->request['elpastas'])){
+            throw new InvalidArgumentException('Nenurodytas el pastas');
+        }
+
+        if (!array_key_exists('msg', $this->request) || empty($this->request['msg'])){
+            throw new InvalidArgumentException('Nera zinutes');
+        }
     }
 }
