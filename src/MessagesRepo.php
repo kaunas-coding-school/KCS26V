@@ -24,8 +24,42 @@ class MessagesRepo
         $stmt->execute();
     }
 
+    public function getAll()
+    {
+        $sql = "SELECT * FROM kcs_db.messages";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
     public function lastInsertId()
     {
         return $this->conn->lastInsertId();
+    }
+
+    public function delete($id): void
+    {
+        $sql = "DELETE FROM kcs_db.messages WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+    }
+
+    public function update($id, $vardas, $elpastas, $msg): void
+    {
+        $sql = "UPDATE kcs_db.messages
+                SET name=:vardas, email=:el_pastas, message=:zinute
+                WHERE id=:id";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':zinute', $msg);
+        $stmt->bindParam(':el_pastas', $elpastas);
+        $stmt->bindParam(':vardas', $vardas);
+
+        $stmt->execute();
     }
 }

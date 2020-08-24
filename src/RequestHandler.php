@@ -25,9 +25,9 @@ class RequestHandler
      * @return array
      * @throws Exception
      */
-    public function gautiUzklausosDuoemnis(): array
+    public function gautiUzklausosDuomenis(): array
     {
-        $this->validuotiDuomenis();
+        //$this->validuotiDuomenis();
         return $this->request;
     }
 
