@@ -21,5 +21,6 @@ RUN chown www-data:www-data -R .
 RUN composer install --prefer-dist --no-plugins --no-scripts
 
 RUN ls -al /var/www/html/
+COPY Docker/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 EXPOSE 80

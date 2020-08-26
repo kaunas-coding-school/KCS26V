@@ -1,6 +1,8 @@
 <?php
 
-namespace KCS;
+namespace KCS\Repository;
+
+use KCS\Service\DB;
 
 class MessagesRepo
 {
@@ -61,5 +63,21 @@ class MessagesRepo
         $stmt->bindParam(':vardas', $vardas);
 
         $stmt->execute();
+    }
+
+    public function get(int $id)
+    {
+        $sql = "SELECT * FROM kcs_db.messages WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+
+        $rez = $stmt->fetch();
+
+        if (!$rez) {
+            throw new \InvalidArgumentException("Nerasta $id zinute");
+        }
+
+        return $rez;
     }
 }

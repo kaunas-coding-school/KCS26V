@@ -1,40 +1,18 @@
 <?php
 
+use KCS\RequestHandler;
+use KCS\Router;
+
 require_once __DIR__.'/../vendor/autoload.php';
 
 $log = new Monolog\Logger('name');
 $log->pushHandler(new Monolog\Handler\StreamHandler('app.log', Monolog\Logger::DEBUG));
 
 try {
-    $request = new \KCS\RequestHandler();
-
-    $messagesRepo = new \KCS\MessagesRepo();
-    $uzklausa = $request->gautiUzklausosDuomenis();
-
-    if ($request->gautiUzklausosMetoda() === 'POST' && !isset($uzklausa['id']) && !isset($uzklausa['del_id'])) {
-        $messagesRepo->insert($uzklausa['vardas'], $uzklausa['elpastas'], $uzklausa['msg']);
-        $last_id = $messagesRepo->lastInsertId();
-        echo "Iterpem duomenis. Iraso ID: $last_id";
-        $last_id = $messagesRepo->lastInsertId();
-    }
-
-    if ($request->gautiUzklausosMetoda() === 'GET') {
-        $messages = $messagesRepo->getAll();
-        foreach ($messages as $message) {
-            \KCS\Response::printHtml($message);
-        }
-    }
-
-    if ($request->gautiUzklausosMetoda() === 'POST' && isset($uzklausa['id'])) {
-        $messagesRepo->update($uzklausa['id'], $uzklausa['vardas'], $uzklausa['elpastas'], $uzklausa['msg']);
-        echo "Sekmingai atnaujinau";
-    }
-
-    if ($request->gautiUzklausosMetoda() === 'POST' && isset($uzklausa['del_id'])) {
-        $messagesRepo->delete($uzklausa['del_id']);
-        echo "Sekmingai pasalinau";
-    }
-
+    $request = new RequestHandler();
+    $router = new Router();
+    $router->add(\KCS\Controller\MessageController::class);
+    $router->handleRequest($request);
 } catch (PDOException $e) {
     $message = $e->getMessage();
     echo "Connection failed: ".$message;

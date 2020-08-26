@@ -1,6 +1,6 @@
 <?php
 
-namespace KCS;
+namespace KCS\Service;
 
 use PDO;
 

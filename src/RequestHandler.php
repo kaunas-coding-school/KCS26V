@@ -3,12 +3,9 @@
 namespace KCS;
 
 use Exception;
-use InvalidArgumentException;
-use RuntimeException;
 
 class RequestHandler
 {
-    public const AMZIAUS_LIMITAS = 20;
     /**
      * @var array
      */
@@ -27,7 +24,6 @@ class RequestHandler
      */
     public function gautiUzklausosDuomenis(): array
     {
-        //$this->validuotiDuomenis();
         return $this->request;
     }
 
@@ -36,21 +32,8 @@ class RequestHandler
         return $this->method;
     }
 
-    /**
-     * @throws Exception
-     */
-    private function validuotiDuomenis(): void
+    public function gauti(string $string): ?string
     {
-        if (!array_key_exists('vardas', $this->request) || empty($this->request['vardas'])){
-            throw new InvalidArgumentException('Nenurodytas Vardas');
-        }
-
-        if (!array_key_exists('elpastas', $this->request) || empty($this->request['elpastas'])){
-            throw new InvalidArgumentException('Nenurodytas el pastas');
-        }
-
-        if (!array_key_exists('msg', $this->request) || empty($this->request['msg'])){
-            throw new InvalidArgumentException('Nera zinutes');
-        }
+        return $this->request[$string] ?? null;
     }
 }
