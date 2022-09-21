@@ -58,16 +58,17 @@ where s.title = 'Inactive'
 AND (p.first_name is null or p.first_name = '' OR p.last_name is null OR p.last_name = '')
 GROUP BY p.id;
 
--- 8] uzduotis JOIN
-SELECT count(g.id) AS `Kiek grupiu adrese`,
-       concat(
+-- 8 uzduotis JOIN
+SELECT concat(
                COALESCE(a.street, ''), ' ',
                COALESCE(a.city, ''), ' ',
                COALESCE(a.postcode, ''), ' ',
                COALESCE(c.title, '')
-           ) AS Adresas
+           ) AS Adresas,
+       GROUP_CONCAT(g.title) as Grupes,
+       count(g.id) AS kiek
 FROM `groups` g
-         JOIN addresses a on g.address_id = a.id
+         LEFT JOIN addresses a on g.address_id = a.id
          LEFT JOIN countries c on a.country_iso = c.iso
 GROUP BY g.address_id;
 
