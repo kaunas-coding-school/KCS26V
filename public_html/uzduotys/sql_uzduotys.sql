@@ -40,7 +40,16 @@ FROM gruops as g
          LEFT JOIN persons AS p ON p.id = p2g.person_id
 WHERE g.code LIKE '%D';
 
-# 6a] uzduotis
+#6] uzduotis
+SELECT p.first_name, p.last_name, CONCAT(a.street, ' ', a.city, ' ',  a.postcode, ' ', c.title) AS Adresas
+FROM `groups` g
+         JOIN person2gruop p2g on g.id = p2g.groups_id
+         JOIN persons p on p.id = p2g.person_id
+         JOIN addresses a on p.address_id = a.id
+         JOIN countries c on a.country_iso = c.iso
+where g.title = 'KCS511v';
+
+# *a] uzduotis
 SELECT COUNT(p.id) as kiekis,
        CASE
            WHEN g.code LIKE '%D' THEN 'Vakariniai'
@@ -51,7 +60,7 @@ FROM gruops as g
          LEFT JOIN persons AS p ON p.id = p2g.person_id
 GROUP BY tipas;
 
-# 6b] uzduotis
+# *b] uzduotis
 SELECT COUNT(p.id) as kiekis,
        CASE
            WHEN g.code LIKE '%D' THEN 'Vakariniai'
@@ -64,7 +73,7 @@ FROM gruops as g
 WHERE s.title = 'Active'
 GROUP BY tipas;
 
-# 7] uzduotis
+# **] uzduotis
 select count(a.kiek) Studentu_kiekis
 FROM (select count(id) as kiek from person2gruop
       group by person_id
